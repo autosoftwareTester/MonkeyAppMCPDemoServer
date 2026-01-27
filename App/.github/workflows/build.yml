@@ -1,0 +1,27 @@
+﻿name: Test Automation Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      # Use the action to build the project, which will also restore dependencies and run tests.
+      - uses: EasyDesk/action-dotnet-build@v1
+        with:
+          # (Optional) Additional arguments for dotnet build.
+          build-args: -v normal
+
+          # (Optional) True if warnings should be treated as errors, defaults to false.
+          warnings-as-errors: false
+      
+      # For debugging purposes, you can add additional steps to inspect the environment or output files.   
+      - run: ls -la"
+      - run: echo "Tests completed successfully!"
